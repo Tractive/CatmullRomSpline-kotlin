@@ -54,6 +54,12 @@ class CatmullRomSpline<out T> constructor(private val mType: Type, private val m
         return Math.pow(Math.sqrt(Math.pow(_vectorB.x - _vectorA.x, 2.0) + Math.pow(_vectorB.y - _vectorA.y, 2.0)), mType.alpha) + _previousKnot
     }
 
+    enum class Type(val alpha: Double) {
+        UNIFORM(0.0),
+        CHORDAL(1.0),
+        CENTRIPETAL(0.5)
+    }
+
     companion object {
 
         interface Converter<T> {
@@ -61,12 +67,6 @@ class CatmullRomSpline<out T> constructor(private val mType: Type, private val m
             fun convertTo(_vector: Vector): T
 
             fun convertFrom(_source: T): Vector
-        }
-
-        enum class Type(val alpha: Double) {
-            UNIFORM(0.0),
-            CHORDAL(1.0),
-            CENTRIPETAL(0.5)
         }
 
     }
