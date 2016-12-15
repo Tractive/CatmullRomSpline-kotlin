@@ -1,8 +1,6 @@
 package com.tractive.android.catmullrom
 
-import android.util.Log
 import com.tractive.android.catmullrom.data.Vector
-import java.util.*
 
 /**
  * Created by stephan on 13/12/16.
@@ -22,11 +20,13 @@ class CatmullRomSpline<out T> constructor(private val mType: Type, private val m
         val t3 = calculateKnotFor(t2, vector2, vector3)
 
 
-        return 1.rangeTo(mNumberOfPoints)
+        return 1.rangeTo(mNumberOfPoints - 1)
                 .map { i -> t1 + (i * ((t2 - t1) / mNumberOfPoints)) }
                 .map { t -> interpolate(t0, t1, t2, t3, t) }
                 .filterNot(Vector::isNaN)
                 .map { vector -> mConverter.convertTo(vector) }
+                .toMutableList()
+                .apply { add(mConverter.convertTo(vector2)) } //add manually in case of NaN
     }
 
     private fun interpolate(t0: Double, t1: Double, t2: Double, t3: Double, t: Double): Vector {

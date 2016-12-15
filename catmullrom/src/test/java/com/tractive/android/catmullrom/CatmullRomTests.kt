@@ -1,6 +1,8 @@
 package com.tractive.android.catmullrom
 
+import android.graphics.Point
 import com.google.android.gms.maps.model.LatLng
+import com.tractive.android.catmullrom.data.Vector
 import com.tractive.android.catmullrom.utils.CatmullUtils
 import org.junit.Test
 
@@ -17,8 +19,7 @@ import java.util.*
 @RunWith(JUnit4::class)
 class CatmullRomTests {
     @Test
-    @Throws(Exception::class)
-    fun testNanValues() {
+    fun testNumberOfPoints() {
 
         val p1 = LatLng(42.28, 12.36)
         val p2 = LatLng(43.28, 13.36)
@@ -33,4 +34,21 @@ class CatmullRomTests {
 
         assertTrue(list.size == (combinedList.size - 1) * (numberOfPoints + 1))
     }
+
+    @Test
+    fun testNanResult() {
+
+        val p1 = LatLng(42.28, 12.36)
+
+        val combinedList = Arrays.asList(p1, p1, p1, p1)
+        val numberOfPoints = 5
+
+
+        val list = CatmullUtils.Companion.create(CatmullRomSpline.Type.CHORDAL, numberOfPoints, p1, p1, p1, p1)
+
+        assertTrue(list.size == 1)
+
+
+    }
+
 }
