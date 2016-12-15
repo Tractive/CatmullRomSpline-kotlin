@@ -19,11 +19,10 @@ class CatmullUtils {
         fun create(_type: CatmullRomSpline.Type, _numberOfPoints: Int, p1: Point, p2: Point, p3: Point, p4: Point): List<Point> {
             return CatmullRomSpline(_type, _numberOfPoints, p1, p2, p3, p4, object : CatmullRomSpline.Companion.Converter<Point> {
 
-                override fun convertTo(_vector: Vector): Point = Point(_vector.x.toInt(), _vector.y.toInt())
+                override fun convertTo(_vector: Vector) = Point(_vector.x.toInt(), _vector.y.toInt())
 
-                override fun convertFrom(_source: Point): Vector {
-                    return Vector(_source.x.toDouble(), _source.y.toDouble())
-                }
+                override fun convertFrom(_source: Point) = Vector(_source.x.toDouble(), _source.y.toDouble())
+
             }).createCatmullRomPointList()
 
         }
@@ -31,14 +30,9 @@ class CatmullUtils {
         fun create(_type: CatmullRomSpline.Type, _numberOfPoints: Int, p1: LatLng, p2: LatLng, p3: LatLng, p4: LatLng): List<LatLng> {
             val catmullRomSpline = CatmullRomSpline(_type, _numberOfPoints, p1, p2, p3, p4, object : CatmullRomSpline.Companion.Converter<LatLng> {
 
-                override fun convertTo(_vector: Vector): LatLng {
-                    return LatLng(_vector.x, _vector.y)
-                }
+                override fun convertTo(_vector: Vector) =  LatLng(_vector.x, _vector.y)
 
-
-                override fun convertFrom(_source: LatLng): Vector {
-                    return Vector(_source.latitude, _source.longitude)
-                }
+                override fun convertFrom(_source: LatLng) = Vector(_source.latitude, _source.longitude)
             })
 
             return catmullRomSpline.createCatmullRomPointList()
@@ -69,7 +63,7 @@ class CatmullUtils {
             allPoints.add(firstElement)
 
             1.rangeTo(extendedLatLngList.size - 3).forEach { i ->
-             val listResult =   CatmullUtils.create(_type, _numberOfPoints, extendedLatLngList[i - 1], extendedLatLngList[i], extendedLatLngList[i + 1], extendedLatLngList[i + 2])
+                val listResult = CatmullUtils.create(_type, _numberOfPoints, extendedLatLngList[i - 1], extendedLatLngList[i], extendedLatLngList[i + 1], extendedLatLngList[i + 2])
                 allPoints.addAll(listResult)
             }
 
